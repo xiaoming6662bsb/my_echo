@@ -2,6 +2,7 @@ package utils
 
 import (
 	"encoding/binary"
+	"fmt"
 	"time"
 )
 
@@ -17,4 +18,12 @@ func Nano2Time(na int64) time.Time {
 	seconds := na / int64(time.Second)     // 计算秒
 	nanoseconds := na % int64(time.Second) // 计算纳秒的剩余部分
 	return time.Unix(seconds, nanoseconds)
+}
+func GetLocal() *time.Location {
+	location, err := time.LoadLocation("Asia/Hong_Kong")
+	if err != nil {
+		fmt.Println("GetLocal Err:", err)
+		return nil
+	}
+	return location
 }

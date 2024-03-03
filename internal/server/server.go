@@ -17,12 +17,23 @@ func handleTCPConn(conn net.Conn) {
 		fmt.Println("Error reading:", err)
 		return
 	}
-	_, err = conn.Write(utils.GetByteNanoTime(time.Now().UnixNano()))
+	t := time.Now().In(utils.GetLocal())
+
+	_, err = conn.Write(utils.GetByteNanoTime(t.UnixNano()))
 	if err != nil {
 		fmt.Println("Error Write:", err)
 
 		return
 	}
+	stime := utils.Nano2Time(utils.DeCodeByteNanoTime(buffer))
+
+	fmt.Printf("\n\r\nTCP[%v]\n%v\nin[%v]\n%v\nTCP\n\r\n",
+		conn.RemoteAddr().String(),
+		stime.UnixNano(),
+		t.Sub(stime).String(),
+		t.UnixNano(),
+	)
+
 }
 
 func StartTCP(addr string) {
@@ -64,10 +75,18 @@ func StartUDP(addr string) {
 			fmt.Println("Error reading from connection:", err)
 			continue
 		}
-		_, err = conn.WriteTo(utils.GetByteNanoTime(time.Now().UnixNano()), laddr)
+		t := time.Now().In(utils.GetLocal())
+		_, err = conn.WriteTo(utils.GetByteNanoTime(t.UnixNano()), laddr)
 		if err != nil {
 			fmt.Println("Error WriteTo from connection:", err)
-
 		}
+		stime := utils.Nano2Time(utils.DeCodeByteNanoTime(buffer))
+
+		fmt.Printf("\n\r\nUDP[%v]\n%v\nin[%v]\n%v\nUDP\n\r\n",
+			laddr.String(),
+			stime.UnixNano(),
+			t.Sub(stime).String(),
+			t.UnixNano(),
+		)
 	}
 }
