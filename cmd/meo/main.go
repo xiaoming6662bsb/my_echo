@@ -16,9 +16,9 @@ func main() {
 	var RemoteHost string
 	flag.BoolVar(&isAge, "age", false, "Run as age client")
 	flag.BoolVar(&isServer, "serv", false, "Run as server")
-	flag.StringVar(&TcpPort, "tp", "8080", "Run as server")
-	flag.StringVar(&UcpPort, "up", "8081", "Run as server")
-	flag.StringVar(&RemoteHost, "th", "", "Run as server")
+	flag.StringVar(&TcpPort, "tp", "8080", "server tcp port")
+	flag.StringVar(&UcpPort, "up", "8081", "server udp port")
+	flag.StringVar(&RemoteHost, "th", "", "server ip")
 	flag.Parse()
 
 	if isAge && isServer {
@@ -32,7 +32,6 @@ func main() {
 	if isAge {
 		wg := &sync.WaitGroup{}
 		wg.Add(2)
-		// 这里填入server的地址
 		go age.SendTCP(RemoteHost+":"+TcpPort, wg)
 		go age.SendUDP(RemoteHost+":"+UcpPort, wg)
 		wg.Wait()

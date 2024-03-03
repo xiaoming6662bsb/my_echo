@@ -69,5 +69,4 @@ func SendUDP(serverAddr string, wg *sync.WaitGroup) {
 		fmt.Printf("\n\r\nUDP\n%v\nup[%v]\n%v\ndown[%v]\n%v\nUDP\n\r\n", timestamp.UnixNano(), stime.Sub(timestamp).String(), stime.UnixNano(), etime.Sub(stime).String(), etime.UnixNano())
 		return
 	}
-	// 由于UDP是无连接的，这里我们不等待回应
 }
