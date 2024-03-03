@@ -42,6 +42,6 @@ func main() {
 		st := make(chan struct{}, 1)
 		<-st
 	} else {
-		fmt.Println("Please specify --age or --server")
+		fmt.Println("Please specify --age or --serv")
 	}
 }
